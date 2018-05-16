@@ -4,12 +4,15 @@
  * @DateTime:    2018-04-27 15:59:20
  * @Description: SURPRISE
  */
-(function() {
-
+!(function() {
+  console.log('Surprise with konami code');
+  console.log("%cSurprise with konami code"," text-shadow: 0 1px 0 #ccc,0 2px 0 #c9c9c9,0 3px 0 #bbb,0 4px 0 #b9b9b9,0 5px 0 #aaa,0 6px 1px rgba(0,0,0,.1),0 0 5px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(0,0,0,.2),0 5px 10px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.2),0 20px 20px rgba(0,0,0,.15);font-size:2.5em;background:rgb(220, 51, 43);color:#fff;padding:20px 10px 30px;");
+  console.log('');
+  console.log('');
+  console.log('');
   //全屏显示
   var handleFullscreen = function() {
     let main = document.body;
-    console.log('full screen');
     if (main.requestFullscreen) {
       main.requestFullscreen();
     } else if (main.mozRequestFullScreen) {
@@ -263,25 +266,29 @@
   var addBgSound = function() {
     //添加音乐 《Call of the ambulance》
     var audio = document.createElement('audio');
-    audio.src = 'CallOfTheAmbulance.MP3';
+    audio.src = 'http://www.hohu.com.cn/Public/home/images/CallOfTheAmbulance.MP3';
     audio.style.display = 'none';
     audio.autopaly = 'autopaly';
     document.body.appendChild(audio);
     audio.play();
     setTimeout(function() {
-      //切换音乐给《大哥点点关注》 时长 12s 之后停止 网页恢复正常
+      //切换音乐给《大哥点点关注》 时长 30s 之后停止 网页恢复正常
       audio.pause();
       document.body.removeChild(audio);
       var follow = document.createElement('audio');
-      follow.src = 'follow.mp3';
+      follow.src = 'http://www.hohu.com.cn/Public/home/images/follow.mp3';
       document.body.appendChild(follow);
       follow.play();
-    }, 60 * 1000);
+      document.getElementById('mj_eggs_txt02').style.display = 'block';
+      setTimeout(function(){
+        window.location.reload();
+      }, 12*1000);
+    }, 41 * 1000);
   };
 
   // startEggs();
-  var tokeyList = [0, 0, 0, 0, 0, 0, 0, 0],
-    TOKEN = '38,38,40,40,37,39,66,65',
+  var tokeyList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    TOKEN = '38,38,40,40,37,39,37,39,66,65',
     isStartedSurprise = false,
     keyupEvent = function(e) {
       if (isStartedSurprise) {
@@ -293,6 +300,17 @@
       tokeyList.push(e.keyCode);
       tokeyList.shift();
       if (tokeyList.join(',') === TOKEN) {
+        // document.getElementById('mj_eggs').style.display = 'block';
+        var mjEggs = document.createElement('div');
+        mjEggs.className = 'mj-eggs';
+        mjEggs.id = 'mj_eggs';
+        mjEggs.innerHTML = '<canvas id="canvas"></canvas>'+
+          '<div class="mj-eggs-wapper">'+
+            '<a href="#" class="mj-eggs-txt02" id="mj_eggs_txt02">给大哥点点关注！</a>'+
+          '</div>';
+        document.body.appendChild(mjEggs);
+        document.body.style.width = "100%";
+        document.body.style.height = "100%";
         isStartedSurprise = true;
         addBgSound();
         startEggs();
